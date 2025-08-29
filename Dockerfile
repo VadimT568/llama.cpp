@@ -21,11 +21,13 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 
 ENV LLAMA_ARG_HOST=0.0.0.0
 ENV LLAMA_ARG_NO_WEBUI=1
+ENV LLAMA_ARG_CTX_SIZE=0
+ENV LLAMA_ARG_JINJA=1
 ENV LLAMA_API_KEY=$LLAMA_API_KEY
 ENV LLAMA_ARG_HF_REPO=$LLAMA_ARG_HF_REPO
 
-EXPOSE 8080/tcp
+EXPOSE 80/tcp
 
-HEALTHCHECK CMD [ "curl", "-f", "http://localhost:8080/health" ]
+HEALTHCHECK CMD [ "curl", "-f", "http://localhost:80/health" ]
 
 ENTRYPOINT [ "/app/build/bin/llama-server" ]
