@@ -20,7 +20,6 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     cmake --build build -j $(nproc)
 
 ENV LLAMA_ARG_HOST=0.0.0.0
-ENV LLAMA_ARG_PORT=8080
 ENV LLAMA_ARG_NO_WEBUI=1
 ENV LLAMA_ARG_CTX_SIZE=0
 ENV LLAMA_ARG_JINJA=1
