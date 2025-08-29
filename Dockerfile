@@ -19,14 +19,8 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi && \
     cmake --build build -j $(nproc)
 
-RUN mkdir -p /app/lib && \
-    find build -name "*.so" -exec cp {} /app/lib \;
-
 RUN mkdir -p /app/full \
     && cp build/bin/* /app/full
-
-### Server, Server only
-FROM base AS server
 
 ENV LLAMA_ARG_HOST=0.0.0.0
 ENV LLAMA_ARG_PORT=80
@@ -36,10 +30,6 @@ ENV LLAMA_ARG_HF_REPO=$LLAMA_ARG_HF_REPO
 
 EXPOSE 80/tcp
 
-COPY --from=build /app/full/llama-server /app
-
-WORKDIR /app
-
 HEALTHCHECK CMD [ "curl", "-f", "http://localhost:80/health" ]
 
-ENTRYPOINT [ "/app/llama-server" ]
+ENTRYPOINT [ "/app/build/bin/llama-server" ]
